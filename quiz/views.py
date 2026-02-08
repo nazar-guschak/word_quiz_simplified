@@ -79,6 +79,7 @@ def delete(request, word_id):
 @login_required
 def run_quiz(request):
     results = []
+    correct_answers = 0
     if request.method == "POST":
         quiz_ids = request.session.get("quiz_word_ids", [])
         quiz_choices = request.session.get("choices", [])
@@ -95,6 +96,8 @@ def run_quiz(request):
         )
 
         form = QuizForm(request.POST, words=quiz, choices=quiz_choices)
+
+
 
         if form.is_valid():
             for i, word in enumerate(quiz):
@@ -114,10 +117,15 @@ def run_quiz(request):
                 if answer != word.translation:
                     word.failed_attempts += 1
                     word.save()
+                else:
+                    correct_answers += 1
         else:
             print(form.errors)
 
-        return render(request, 'quiz/quiz_results.html', {'results': results})
+        context = {"results":results, "correct_answers": correct_answers}
+
+
+        return render(request, 'quiz/quiz_results.html', context=context)
 
     else:
         quiz = list(Word.objects.new_quiz_words(user=request.user))

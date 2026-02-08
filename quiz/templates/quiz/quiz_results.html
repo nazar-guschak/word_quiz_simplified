@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="quiz-container">
-    <h3>Результати</h3>
+    <h2>Результати: {{ correct_answers }} з 10</h2>
     <br>
     {% for r in results %}
     <div class="question">
@@ -17,6 +17,10 @@
         </ul>
     </div>
     {% endfor %}
+    <div class="restart-buttons">
+        <a href="{% url 'quiz:index' %}" class="button">Головна</a>
+        <a href="{% url 'quiz:quiz' %}" class="button">Новий тест</a>
+    </div>
 </div>
 
 {% endblock %}

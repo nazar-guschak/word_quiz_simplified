@@ -106,6 +106,13 @@ main {
     margin-left: 0;
 }
 
+.restart-buttons {
+    display: flex;
+    width: 45%;
+    justify-content: center;
+    gap: 10px;
+}
+
 li.correct {
         background: linear-gradient(
         135deg,
