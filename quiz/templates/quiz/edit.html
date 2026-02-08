@@ -8,7 +8,11 @@
     <form method="post" class="add-form">
         {% csrf_token %}
         <h2>Редагувати</h2>
-        {{ form.as_p }}
+        <div class="edit-word">
+            {{ form.word }}
+            <span><i class="bi bi-chevron-right"></i></span>
+            {{ form.translation }}
+        </div>
         <button type="submit" class="button">Зберегти</button>
     </form>
 </div>

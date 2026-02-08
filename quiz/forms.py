@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import modelformset_factory, RadioSelect
 from .models import Word
-import random
+
 
 class AddWordForm(forms.ModelForm):
     class Meta:

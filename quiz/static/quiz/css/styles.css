@@ -22,9 +22,9 @@ body {
 
 header {
     position: sticky;
-    margin: 10px;
+    margin-bottom: 10px;
 
-    width: calc(100% - 20px);
+    width: 100%;
     max-width: 900px;
     padding: 20px 0px;
     background: rgba(255, 255, 255, 0.3);
@@ -84,14 +84,17 @@ header nav form button:hover {
 }
 
 main {
+    width: 100%;
     max-width: 900px;
-    margin: 10px auto; /* horizontal margin */
+
     padding: 10px;
     box-sizing: border-box;
     background: rgba(214, 214, 194, 0.3);
     backdrop-filter: blur(10px);
     border-radius: 10px;
 }
+
+
 
 .results-list {
     width: 80%;
@@ -132,14 +135,16 @@ li.result {
     transition: all 0.2s ease;
 }
 
+
+
+
+
 .table-container {
     display: grid;
     width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
+    max-width: 900px;
     overflow-x: auto;
     grid-template-columns: minmax(300px, 600px);
-
     justify-content: center;
     place-items: center;
     gap: 10px;
@@ -151,6 +156,7 @@ table {
     min-width: 0;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 30px;
     table-layout: fixed;
     white-space: normal;
     border-collapse: collapse;
@@ -193,11 +199,9 @@ tbody tr:hover {
     border: none;
     padding: 6px;
     cursor: pointer;
-
     color: var(--text-muted);
     font-size: 16px;
     line-height: 1;
-
     border-radius: 6px;
     transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -207,12 +211,17 @@ tbody tr:hover {
     color: var(--text-main);
 }
 
+
+
+
+
+
 .question {
     display: grid;
     justify-items: center;
     gap: 10px;
-
     width: 90%;
+    max-width: 450px;
     margin: 0 auto;/* Centers the content horizontally */
     margin-bottom: 10px;
     background: rgba(214, 214, 194, 0.3);
@@ -237,9 +246,22 @@ tbody tr:hover {
     transition: all 0.2s ease;
 }
 
+.quiz-container {
+    width: 100%;
+    max-width: 900px;
+    display: grid;
+    place-items: center;
+}
 
+.quiz-form {
+    display: grid;
+    width: 100%;
+    min-width: 300px;
+    margin: 0 auto;
+    place-items: center;
+    gap: 10px;
+}
 
-/* Hover effect */
 .choice:hover {
     color: black;
     border-color: #888;
@@ -251,6 +273,8 @@ tbody tr:hover {
     border-color: #4a90e2;
     background-color: #eef5ff;
 }
+
+
 
 .add-form {
     display: grid;
@@ -270,31 +294,23 @@ tbody tr:hover {
 
 }
 
-.add-form button {
-
-}
 
 .field-row {
     display: grid;
-    grid-template-columns: 20px 1fr 1fr;
+    grid-template-columns: 20px 1fr 10px 1fr;
     place-items: center;
     gap: 10px;
 }
 
-.quiz-container {
-    width: 100%;
-    display: grid;
-    place-items: center;
+.edit-word{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+
 }
 
-.quiz-form {
-    display: grid;
-    width: 100%;
-    min-width: 300px;
-    margin: 0 auto;
-    place-items: center;
-    gap: 10px;
-}
+
 
 
 .login-container {
@@ -339,8 +355,8 @@ tbody tr:hover {
 }
 
 .button {
-    width: 100%;
-    min-width: 300px;
+    width: 90%;
+    max-width: 300px;
     text-align: center;
     padding: 10px 0px;
     border-radius: 50px;

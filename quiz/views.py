@@ -12,7 +12,7 @@ from django.db.models import Case, When
 @login_required
 def index(request):
 
-    words = Word.objects.filter(owner=request.user)
+    words = Word.objects.filter(owner=request.user).order_by('word')
     context = {'words':words}
 
     return render(request, 'quiz/index.html', context)
