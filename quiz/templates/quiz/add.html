@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Додати - Словник{% endblock %}
+
+{% block content %}
+
+    <form method="post" class="add-form">
+        {% csrf_token %}
+
+        <h3>Додай нові слова</h3>
+
+        {{ formset.management_form }}
+        {% for s_form in formset %}
+
+                {# Include the hidden ID field for existing records #}
+                {{ s_form.id }}
+
+                <div class="field-row">
+                    <span class="form-number">#{{ forloop.counter }}</span>
+                    {{ s_form.word }}
+                    {{ s_form.translation }}
+                </div>
+
+                {% if s_form.non_field_errors %}
+                    <div class="error">{{ s_form.non_field_errors }}</div>
+                {% endif %}
+
+        {% endfor %}
+
+        <button type="submit" class="button">
+            <i class="bi bi-plus-circle"></i> Додати слова
+        </button>
+    </form>
+
+{% endblock %}

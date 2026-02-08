@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Головна - Словник{% endblock %}
+
+{% block content %}
+
+<div class="table-container">
+    <h2>Словник</h2>
+        <a href="{% url 'quiz:add' %}" class="button">
+        <i class="bi bi-plus-circle"></i> Додати слова
+    </a>
+    <table>
+        <thead>
+            <tr>
+                <th>Src.</th>
+                <th>Trans.</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for word in words %}
+                <tr>
+                    <td>{{word.word}}</td>
+                    <td>{{word.translation}}</td>
+                    <td class="actions">
+                        <!-- Edit (GET) -->
+                        <a href="{% url 'quiz:edit' word.id %}"
+                           class="icon-btn edit"
+                           title="Змінити">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+
+                        <!-- Delete (POST) -->
+                        <form action="{% url 'quiz:delete' word.id %}"
+                              method="post"
+                              class="inline-form">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="icon-btn delete"
+                                    title="Видалити"
+                                    onclick="return confirm('Видалити пару {{ word.word }} – {{ word.translation }}?')">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

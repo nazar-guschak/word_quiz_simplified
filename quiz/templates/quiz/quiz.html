@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Тест - Словник{% endblock %}
+
+{% block content %}
+
+<div class="quiz-container">
+    <h3>Тест - 10 слів</h3>
+    <br>
+
+    <form method="post" class="quiz-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="question">
+                <h2>{{ field.label }}</h2>
+
+
+            {% for radio in field %}
+                <label class="button-55 choice">
+                    {{ radio.tag }}
+                    {{ radio.choice_label }}
+                </label>
+            {% endfor%}
+            </div>
+        {% endfor %}
+        <button class="button" role="button" type="submit">Закінчити</button>
+    </form>
+
+</div>
+
+{% endblock %}

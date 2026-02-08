@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Тест - Словник{% endblock %}
+
+{% block content %}
+
+<div class="quiz-container">
+    <h3>Результати</h3>
+    <br>
+    {% for r in results %}
+    <div class="question">
+        <h2>{{ r.word }}</h2>
+        <ul class="results-list">
+            {% for option in r.options %}
+            <li class="{% if option == r.correct %}result correct{% elif option == r.selected %}result wrong{% else %}result{% endif %}">{{ option }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

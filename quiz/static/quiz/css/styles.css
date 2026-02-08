@@ -1,0 +1,372 @@
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    padding: 10px;
+    min-height: 100vh; /* Full height of the browser window */
+    font-family: "SN Pro", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased; /* Makes text look crisper on dark backgrounds */
+    color: #FFFFFF;
+    background-image: linear-gradient( 135deg, #3C8CE7 10%, #00EAFF 100%);
+    overscroll-behavior-y: contain;
+}
+
+header {
+    position: sticky;
+    margin: 10px;
+
+    width: calc(100% - 20px);
+    max-width: 900px;
+    padding: 20px 0px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+
+    border-radius: 10px;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+header nav a {
+    display: inline-block;
+    margin: 0 5px;
+    text-decoration: none;      /* remove underline */
+    color: #FFFFFF;                /* dark text for readability */
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: "Rubik Doodle Shadow", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.3rem;
+}
+
+
+header nav a:hover {
+    background-color: rgba(238, 97, 149, 1);
+    color: #000000;
+    transform: scale(1.05);
+}
+
+
+header nav form button {
+    margin: 0 5px;                /* same spacing as links */
+    padding: 5px 10px;             /* same as links */
+    border: none;                   /* remove default button border */
+    border-radius: 8px;             /* same as links */
+    background-color: rgba(109, 115, 112, 0.3);  /* like a link */
+    color: #FFFFFF;                    /* same text color as links */
+    font-weight: 600;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Rubik Doodle Shadow", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+header nav form button:hover {
+    background-color: rgba(238, 97, 149, 1);
+    color: #000000;
+    transform: scale(1.05);
+}
+
+main {
+    max-width: 900px;
+    margin: 10px auto; /* horizontal margin */
+    padding: 10px;
+    box-sizing: border-box;
+    background: rgba(214, 214, 194, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+}
+
+.results-list {
+    width: 80%;
+    max-width: 280px;
+    box-sizing: border-box;
+    text-align: center;
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+li.correct {
+        background: linear-gradient(
+        135deg,
+        #2ECC71,   /* green */
+        #27AE60    /* deeper green */
+    );
+    color: white;
+}
+
+li.wrong {
+    background: linear-gradient(
+        135deg,
+        #E74C3C,   /* red */
+        #C0392B    /* deep red */
+    );
+    color: white;
+}
+
+li.result {
+
+    text-align: center;
+    margin: 10px auto;
+    padding: 12px 16px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.table-container {
+    display: grid;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow-x: auto;
+    grid-template-columns: minmax(300px, 600px);
+
+    justify-content: center;
+    place-items: center;
+    gap: 10px;
+}
+
+table {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-left: auto;
+    margin-right: auto;
+    table-layout: fixed;
+    white-space: normal;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+thead th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 14px 12px;
+    color: var(--text-muted);
+    border-bottom: 2px solid grey;
+}
+
+tbody tr {
+    border-bottom: 1px solid grey;
+}
+
+tbody td {
+    padding: 14px 12px;   /* this is what makes it feel “premium” */
+    vertical-align: middle;
+}
+
+td.actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.025);
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1;
+
+    border-radius: 6px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.icon-btn:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    color: var(--text-main);
+}
+
+.question {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+
+    width: 90%;
+    margin: 0 auto;/* Centers the content horizontally */
+    margin-bottom: 10px;
+    background: rgba(214, 214, 194, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding-bottom: 15px;
+}
+
+.choice input[type="radio"] {
+    display: none;
+}
+
+.choice {
+    width: 80%;              /* ← KEY */
+    max-width: 280px;         /* optional, for aesthetics */
+    box-sizing: border-box;
+    text-align: center;
+    padding: 12px 16px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+
+
+/* Hover effect */
+.choice:hover {
+    color: black;
+    border-color: #888;
+    background-color: #f9f9f9;
+}
+
+.choice:has(input[type="radio"]:checked) {
+    color: black;
+    border-color: #4a90e2;
+    background-color: #eef5ff;
+}
+
+.add-form {
+    display: grid;
+    width: 100%;
+    margin: 0 auto;
+    place-items: center;
+    gap: 10px;
+}
+
+.add-form input {
+    box-sizing: border-box;
+    width: 100%;
+
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+
+}
+
+.add-form button {
+
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 20px 1fr 1fr;
+    place-items: center;
+    gap: 10px;
+}
+
+.quiz-container {
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.quiz-form {
+    display: grid;
+    width: 100%;
+    min-width: 300px;
+    margin: 0 auto;
+    place-items: center;
+    gap: 10px;
+}
+
+
+.login-container {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.login-card {
+    display: grid;
+    place-items: center;
+    gap: 10px;
+    width: 300px;
+    height: auto;
+    padding: 15px;
+    background: rgba(214, 214, 194, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+
+}
+
+.login-form {
+    width: 100%;
+}
+
+.login-form input {
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+}
+
+.login-form button {
+    width: 100%;
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: white;
+}
+
+.button {
+    width: 100%;
+    min-width: 300px;
+    text-align: center;
+    padding: 10px 0px;
+    border-radius: 50px;
+    border: none;
+    background: #ee6195;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    transform: scale(1.05);
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+@media (max-width: 600px) {
+    thead th,
+    tbody td {
+        padding: 8px 6px;
+        font-size: 0.9rem;
+    }
+}

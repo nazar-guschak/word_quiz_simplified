@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title%}Словник{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'quiz/css/styles.css' %}">
+</head>
+
+<body class="login-container">
+    <div class="login-card">
+        {% if form.errors %}
+            <p>Введені дані не вірні. Перевірте ім'я користувача і пароль і спробуйте зновую</p>
+        {% endif %}
+
+        <h1>Увійти</h1>
+
+        <form action="{% url 'users:login' %}" method="post" class="login-form">
+            {% csrf_token %}
+            <div class="field">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+            </div>
+
+            <div class="field">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+            <button name="submit">Увійти</button>
+            <input type="hidden" name="next" value="{% url 'quiz:index' %}">
+
+        </form>
+        <p>Немає акаунта? <a href="{% url 'users:register' %}">Зареєструватися.</a></p>
+    </div>
+</body>
