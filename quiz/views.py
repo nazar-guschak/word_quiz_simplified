@@ -122,7 +122,7 @@ def run_quiz(request):
     else:
         quiz = list(Word.objects.new_quiz_words(user=request.user))
         all_translation = list(
-            Word.objects.values_list("translation", flat=True)
+            Word.objects.filter(user=request.user).values_list("translation", flat=True)
         )
         random.shuffle(quiz)
         request.session["quiz_word_ids"] = [w.id for w in quiz]
