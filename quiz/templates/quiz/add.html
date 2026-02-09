@@ -8,7 +8,9 @@
         {% csrf_token %}
 
         <h3>Додай нові слова</h3>
-
+        <button type="submit" class="button">
+            <i class="bi bi-plus-circle"></i> Додати слова
+        </button>
         {{ formset.management_form }}
         {% for s_form in formset %}
 
@@ -27,10 +29,6 @@
                 {% endif %}
 
         {% endfor %}
-
-        <button type="submit" class="button">
-            <i class="bi bi-plus-circle"></i> Додати слова
-        </button>
     </form>
 
 {% endblock %}

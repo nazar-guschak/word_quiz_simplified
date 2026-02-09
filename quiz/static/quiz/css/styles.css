@@ -4,6 +4,7 @@ html {
 
 body {
     margin: 0;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-items: center;
@@ -83,6 +84,49 @@ header nav form button:hover {
     transform: scale(1.05);
 }
 
+.messages-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.message {
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.95rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-out;
+    white-space: nowrap;
+}
+
+/* Success */
+.message-success {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+/* Warning */
+.message-warning {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 main {
     width: 100%;
     max-width: 900px;
@@ -108,7 +152,7 @@ main {
 
 .restart-buttons {
     display: flex;
-    width: 45%;
+    width: 100%;
     justify-content: center;
     gap: 10px;
 }
@@ -181,6 +225,10 @@ thead th {
     border-bottom: 2px solid grey;
 }
 
+th.actions-col {
+    text-align: right;
+}
+
 tbody tr {
     border-bottom: 1px solid grey;
 }
@@ -192,6 +240,7 @@ tbody td {
 
 td.actions {
     display: flex;
+    justify-content: right;
     align-items: center;
     gap: 10px;
 }
