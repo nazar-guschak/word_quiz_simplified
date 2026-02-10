@@ -30,12 +30,21 @@ class QuizForm(forms.Form):
         self.question_choices = {}
 
         for i, word in enumerate(words):
-            self.fields[f"word_{word.id}"] = forms.ChoiceField(
-                choices = choices[i],
-                widget=forms.RadioSelect,
-                label=word.word
-            )
+            if Word.objects.filter(translation=f"{choices[i][0][0]}").exists():
+                self.fields[f"word_{word.id}"] = forms.ChoiceField(
+                    choices = choices[i],
+                    widget=forms.RadioSelect,
+                    label=word.word
+                )
 
-            self.question_choices[f"word_{word.id}"] = [c[0] for c in choices[i]]
+                self.question_choices[f"word_{word.id}"] = [c[0] for c in choices[i]]
+            elif Word.objects.filter(word=f"{choices[i][0][0]}").exists():
+                self.fields[f"word_{word.id}"] = forms.ChoiceField(
+                    choices=choices[i],
+                    widget=forms.RadioSelect,
+                    label=word.translation
+                )
+
+                self.question_choices[f"word_{word.id}"] = [c[0] for c in choices[i]]
 
 

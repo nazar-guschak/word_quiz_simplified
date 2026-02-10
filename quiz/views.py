@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 import random
 from .models import Word
 from .forms import WordFormSet, AddWordForm, QuizForm
-from django.db.models import Case, When
+from django.db.models import Case, When, F
 
 
 @login_required
@@ -78,8 +78,6 @@ def delete(request, word_id):
 
 @login_required
 def run_quiz(request):
-    results = []
-    correct_answers = 0
     if request.method == "POST":
         quiz_ids = request.session.get("quiz_word_ids", [])
         quiz_choices = request.session.get("choices", [])
@@ -100,25 +98,42 @@ def run_quiz(request):
 
 
         if form.is_valid():
+            results = []
+            correct_answers = 0
+            words_to_update = []
+            quiz_directions = request.session.get("quiz_directions", [])
+
             for i, word in enumerate(quiz):
                 answer = form.cleaned_data[f'word_{word.id}']
 
-                results.append({
-                    "word": word.word,
-                    "options": result_choices[i],
-                    "correct": word.translation,
-                    "selected": answer,
-                    "is_true": word.translation == answer,
-                })
+                if quiz_directions[i] == 'translation':
+                    is_correct = word.translation == answer
+                    results.append({
+                        "word": word.word,
+                        "options": result_choices[i],
+                        "correct": word.translation,
+                        "selected": answer,
+                        "is_true": is_correct,
+                    })
+                else:
+                    is_correct = word.word == answer
+                    results.append({
+                        "word": word.translation,
+                        "options": result_choices[i],
+                        "correct": word.word,
+                        "selected": answer,
+                        "is_true": is_correct,
+                    })
 
-                word.attempts += 1
-                word.save()
-
-                if answer != word.translation:
-                    word.failed_attempts += 1
-                    word.save()
+                word.attempts = F('attempts') + 1
+                if not is_correct:
+                    word.failed_attempts = F('failed_attempts') + 1
                 else:
                     correct_answers += 1
+
+                words_to_update.append(word)
+
+            Word.objects.bulk_update(words_to_update, ['attempts', 'failed_attempts'])
         else:
             print(form.errors)
 
@@ -128,27 +143,58 @@ def run_quiz(request):
         return render(request, 'quiz/quiz_results.html', context=context)
 
     else:
+        # quiz = list(Word.objects.new_quiz_words(user=request.user))
+        # all_translation = list(
+        #     Word.objects.filter(owner=request.user).values_list("translation", flat=True)
+        # )
+        # random.shuffle(quiz)
+        # request.session["quiz_word_ids"] = [w.id for w in quiz]
+        #
+        # many_choices = []
+        #
+        # for word in quiz:
+        #     wrong = random.sample(
+        #         [t for t in all_translation if t != word.translation], 3
+        #     )
+        #
+        #     choices = [(word.translation, word.translation)]
+        #     choices += [(w, w) for w in wrong]
+        #     random.shuffle(choices)
+        #
+        #     many_choices.append(choices)
+        #
+        # request.session["choices"] = many_choices
+        # form = QuizForm(request.POST, words=quiz, choices=many_choices)
+        #
+        # return render(request, "quiz/quiz.html", {"form": form})
+
         quiz = list(Word.objects.new_quiz_words(user=request.user))
         all_translation = list(
-            Word.objects.filter(owner=request.user).values_list("translation", flat=True)
+            Word.objects.filter(owner=request.user)
         )
         random.shuffle(quiz)
         request.session["quiz_word_ids"] = [w.id for w in quiz]
 
         many_choices = []
+        quiz_directions = []
 
         for word in quiz:
+            field_name = random.choice(['word', 'translation'])
+            quiz_directions.append(field_name)
+
             wrong = random.sample(
-                [t for t in all_translation if t != word.translation], 3
+                [t for t in all_translation if t != word], 3
             )
 
-            choices = [(word.translation, word.translation)]
-            choices += [(w, w) for w in wrong]
+            value = getattr(word, field_name)
+            choices = [(value, value)]
+            choices += [(getattr(w, field_name), getattr(w, field_name)) for w in wrong]
             random.shuffle(choices)
 
             many_choices.append(choices)
 
         request.session["choices"] = many_choices
+        request.session["quiz_directions"] = quiz_directions
         form = QuizForm(request.POST, words=quiz, choices=many_choices)
 
         return render(request, "quiz/quiz.html", {"form": form})
