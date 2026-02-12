@@ -214,6 +214,10 @@ table {
     border-spacing: 0;
 }
 
+.word-count {
+    justify-self: start;
+}
+
 thead th {
     text-align: left;
     font-weight: 600;

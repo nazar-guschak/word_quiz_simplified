@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class WordManager(models.Manager):
     def new_quiz_words(self, user, limit=10):
-        return self.filter(owner=user).annotate(
+        return self.filter(owner=user, cooldown=0).annotate(
             priority=ExpressionWrapper(
                 (F('failed_attempts') + 1) / (F('attempts') + 1),
                 output_field=FloatField()
@@ -24,6 +24,7 @@ class Word(models.Model):
     source_language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
     attempts = models.PositiveIntegerField(default=0)
     failed_attempts = models.PositiveIntegerField(default=0)
+    cooldown = models.PositiveIntegerField(default=0)
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 

@@ -9,6 +9,9 @@ from .forms import WordFormSet, AddWordForm, QuizForm
 from django.db.models import Case, When, F
 
 
+COOLDOWN_CYCLES = 2
+
+
 @login_required
 def index(request):
 
@@ -102,6 +105,7 @@ def run_quiz(request):
             correct_answers = 0
             words_to_update = []
             quiz_directions = request.session.get("quiz_directions", [])
+            Word.objects.filter(cooldown__gte=1, cooldown__lte=COOLDOWN_CYCLES).update(cooldown=F('cooldown') - 1)
 
             for i, word in enumerate(quiz):
                 answer = form.cleaned_data[f'word_{word.id}']
@@ -126,6 +130,7 @@ def run_quiz(request):
                     })
 
                 word.attempts = F('attempts') + 1
+                word.cooldown = COOLDOWN_CYCLES
                 if not is_correct:
                     word.failed_attempts = F('failed_attempts') + 1
                 else:
@@ -133,7 +138,7 @@ def run_quiz(request):
 
                 words_to_update.append(word)
 
-            Word.objects.bulk_update(words_to_update, ['attempts', 'failed_attempts'])
+            Word.objects.bulk_update(words_to_update, ['attempts', 'failed_attempts', 'cooldown'])
         else:
             print(form.errors)
 
@@ -143,31 +148,6 @@ def run_quiz(request):
         return render(request, 'quiz/quiz_results.html', context=context)
 
     else:
-        # quiz = list(Word.objects.new_quiz_words(user=request.user))
-        # all_translation = list(
-        #     Word.objects.filter(owner=request.user).values_list("translation", flat=True)
-        # )
-        # random.shuffle(quiz)
-        # request.session["quiz_word_ids"] = [w.id for w in quiz]
-        #
-        # many_choices = []
-        #
-        # for word in quiz:
-        #     wrong = random.sample(
-        #         [t for t in all_translation if t != word.translation], 3
-        #     )
-        #
-        #     choices = [(word.translation, word.translation)]
-        #     choices += [(w, w) for w in wrong]
-        #     random.shuffle(choices)
-        #
-        #     many_choices.append(choices)
-        #
-        # request.session["choices"] = many_choices
-        # form = QuizForm(request.POST, words=quiz, choices=many_choices)
-        #
-        # return render(request, "quiz/quiz.html", {"form": form})
-
         quiz = list(Word.objects.new_quiz_words(user=request.user))
         all_translation = list(
             Word.objects.filter(owner=request.user)

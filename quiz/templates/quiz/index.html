@@ -6,9 +6,11 @@
 
 <div class="table-container">
     <h2>Словник</h2>
-        <a href="{% url 'quiz:add' %}" class="button">
+
+    <a href="{% url 'quiz:add' %}" class="button">
         <i class="bi bi-plus-circle"></i> Додати слова
     </a>
+    <p class="word-count">(Слів в таблиці - {{ words|length }})</p>
     <table>
         <thead>
             <tr>
