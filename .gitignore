@@ -1,3 +1,9 @@
 # Ignore Python bytecode
 __pycache__/
 *.pyc
+
+# Ignore local SQLite database
+db.sqlite3
+
+# Ignore staticfiles (optional if you collect static)
+staticfiles/
