@@ -122,6 +122,7 @@ USE_TZ = True
 STATIC_URL = '/static/'  # default
 STATICFILES_DIRS = []    # usually empty for app static
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic in production
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = 'users:login'
