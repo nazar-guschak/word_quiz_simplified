@@ -41,7 +41,7 @@
             {% if user.is_authenticated %}
                 <form method="post" action="{% url 'users:logout' %}" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit">Logout</button>
+                    <button type="submit">Вихід</button>
                 </form>
             {% else %}
                 <a href="{% url 'users:login' %}">Login</a>
@@ -55,17 +55,32 @@
 </body>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // --- Message Handling ---
     const messages = document.querySelectorAll(".message");
 
     messages.forEach(msg => {
         setTimeout(() => {
+            // Set transition first or ensure it's in CSS
+            msg.style.transition = "all 0.5s ease";
             msg.style.opacity = "0";
             msg.style.transform = "translateY(-10px)";
-            msg.style.transition = "all 0.5s ease";
 
+            // Remove from DOM after transition finishes
             setTimeout(() => msg.remove(), 500);
-        }, 3000); // show for 3 seconds
+        }, 3000);
     });
+
+    // --- Dialog Handling ---
+    const sortDialog = document.getElementById('sortDialog');
+
+    // Check if it exists to prevent errors
+    if (sortDialog) {
+        sortDialog.addEventListener('click', e => {
+            if (e.target === sortDialog) {
+                sortDialog.close();
+            }
+        });
+    }
 });
 </script>
 </html>

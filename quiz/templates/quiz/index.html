@@ -10,13 +10,54 @@
     <a href="{% url 'quiz:add' %}" class="button">
         <i class="bi bi-plus-circle"></i> Додати слова
     </a>
+
+    <div class="search-container">
+        <form action="{% url 'quiz:index' %}" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Введіть слово..." aria-label="Search" required>
+            <button type="submit"><i class="bi bi-search"></i></button>
+        </form>
+        <button class="sort-button" onclick="sortDialog.showModal()">
+            <i class="bi bi-sort-down"></i>
+        </button>
+
+        <dialog id="sortDialog">
+            <div class="sort-option" onclick="selectSort('Name A–Z')">
+                <a href="?sort=name_asc" style="color: inherit; text-decoration: none;">
+                    <i class="bi bi-sort-alpha-down"></i>
+                    (A–Z)
+                </a>
+            </div>
+
+            <div class="sort-option" onclick="selectSort('Name Z–A')">
+                <a href="?sort=name_dsc" style="color: inherit; text-decoration: none;">
+                    <i class="bi bi-sort-alpha-up"></i>
+                    (Z–A)
+                </a>
+            </div>
+
+            <div class="sort-option" onclick="selectSort('Newest')">
+                <a href="?sort=newest" style="color: inherit; text-decoration: none;">
+                    <i class="bi bi-clock-history"></i>
+                    Спочатку нові
+                </a>
+            </div>
+
+            <div class="sort-option" onclick="selectSort('Oldest')">
+                <a href="?sort=oldest" style="color: inherit; text-decoration: none;">
+                    <i class="bi bi-clock"></i>
+                    Спочатку старі
+                </a>
+        </dialog>
+    </div>
+
     <p class="word-count">(Слів в таблиці - {{ words|length }})</p>
+
     <table>
         <thead>
             <tr>
-                <th>Src.</th>
-                <th>Trans.</th>
-                <th class="actions-col">Actions</th>
+                <th>Орг.</th>
+                <th>Пркл.</th>
+                <th class="actions-col">Дії</th>
             </tr>
         </thead>
         <tbody>

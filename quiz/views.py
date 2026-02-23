@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 import random
 from .models import Word
 from .forms import WordFormSet, AddWordForm, QuizForm
-from django.db.models import Case, When, F
+from django.db.models import Case, When, F, Q
 
 
 COOLDOWN_CYCLES = 2
@@ -14,8 +14,27 @@ COOLDOWN_CYCLES = 2
 
 @login_required
 def index(request):
+    words = Word.objects.filter(owner=request.user)
 
-    words = Word.objects.filter(owner=request.user).order_by('word')
+    query = request.GET.get('q')
+    if query:
+        words = words.filter(
+            Q(word__icontains=query) | Q(translation__icontains=query)
+        )
+
+    sort_by = request.GET.get('sort', 'name_asc')
+
+    if sort_by == 'name_dsc':
+        words = words.order_by('-word')
+    elif sort_by == 'newest':
+        words = words.order_by('-id')
+    elif sort_by == 'oldest':
+        words = words.order_by('id')
+    else:
+        # This handles 'name_asc' AND the default fallback in one go
+        words = words.order_by('word')
+
+
     context = {'words':words}
 
     return render(request, 'quiz/index.html', context)
